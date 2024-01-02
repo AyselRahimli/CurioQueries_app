@@ -22,21 +22,25 @@ def main():
         st.header("Ask Your Question")
 
         file = st.file_uploader('Upload a docx file', type='docx')
-        if file is not None:
-            context = read_docx(file)
+        question = st.text_input('Enter your question')
 
-            question = st.text_input('Enter your question')
-            if not question.strip(): 
-                st.warning("This column can not be empty. Please write your question in the question field.")
-            else:
-                model_name = "deepset/roberta-base-squad2"
-                nlp = pipeline('question-answering', model=model_name, tokenizer=model_name, max_length=50, min_length=30)
-                QA_input = {
-                    'question': question,
-                    'context': context
-                }
-                res = nlp(QA_input)
-                st.write("Answer:", res['answer'])
+        if file is None and not question.strip():
+            st.warning("Please upload a docx file and write your question in the question field.")
+        elif file is None:
+            st.warning("Please upload a docx file.")
+        elif not question.strip():
+            st.warning("This column cannot be empty. Please write your question in the question field.")
+        else:
+            context = read_docx(file)
+            model_name = "deepset/roberta-base-squad2"
+            nlp = pipeline('question-answering', model=model_name, tokenizer=model_name, max_length=50, min_length=30)
+            QA_input = {
+                'question': question,
+                'context': context
+            }
+            res = nlp(QA_input)
+            st.write("Answer:", res['answer'])
 
 if __name__ == '__main__':
     main()
+
