@@ -1,5 +1,4 @@
-llama_index
+streamlit
 transformers
 torch
-pathlib
-python-docx
+docx
