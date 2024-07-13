@@ -2,7 +2,7 @@ import streamlit as st
 from transformers import pipeline
 import os
 import io
-import docx
+import docx2txt
 
 def read_docx(file):
     try:
